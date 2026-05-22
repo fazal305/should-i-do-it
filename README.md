@@ -55,6 +55,12 @@ Ask any question and let the universe respond with questionable wisdom.
 
 ---
 
+## Live Demo
+
+https://fazal305.github.io/should-i-do-it/
+
+---
+
 ## Screenshot Idea
 
 Ask things like:
