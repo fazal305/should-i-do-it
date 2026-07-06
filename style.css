@@ -19,6 +19,18 @@ body {
   max-width: 520px;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .hero {
   text-align: center;
   margin-bottom: 28px;
@@ -73,8 +85,12 @@ input {
   margin-bottom: 14px;
 }
 
-input:focus {
+input:focus,
+button:focus-visible,
+a:focus-visible {
   border-color: #00ff99;
+  outline: 3px solid rgba(0, 255, 153, 0.28);
+  outline-offset: 2px;
 }
 
 #decideBtn {
@@ -95,7 +111,8 @@ input:focus {
   box-shadow: 0 12px 30px rgba(0, 255, 153, 0.25);
 }
 
-#decideBtn:active {
+#decideBtn:active,
+.secondary-btn:active {
   transform: scale(0.96);
 }
 
@@ -112,6 +129,7 @@ input:focus {
   padding: 18px;
   font-size: 26px;
   font-weight: 900;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .action-buttons {
@@ -159,11 +177,35 @@ input:focus {
   margin-bottom: 10px;
   color: #d7d7e0;
   font-size: 14px;
+  animation: fadeIn 0.35s ease;
 }
 
-/* Animation used later by JavaScript */
+.empty-history {
+  color: #8f8fa3;
+}
+
 .bounce {
   animation: bounceIn 0.55s ease;
+}
+
+.spin {
+  animation: spinIn 0.55s ease;
+}
+
+.shake {
+  animation: shakeIn 0.45s ease;
+}
+
+.fade {
+  animation: fadeIn 0.55s ease;
+}
+
+.result-box.bounce,
+.result-box.spin,
+.result-box.shake,
+.result-box.fade {
+  border-color: currentColor;
+  box-shadow: 0 0 28px currentColor;
 }
 
 @keyframes bounceIn {
@@ -182,28 +224,6 @@ input:focus {
   }
 }
 
-@media (max-width: 480px) {
-  h1 {
-    font-size: 38px;
-  }
-
-  .result-box {
-    font-size: 22px;
-  }
-}
-
-.spin {
-  animation: spinIn 0.55s ease;
-}
-
-.shake {
-  animation: shakeIn 0.45s ease;
-}
-
-.fade {
-  animation: fadeIn 0.55s ease;
-}
-
 @keyframes spinIn {
   0% {
     transform: rotate(-180deg) scale(0.4);
@@ -217,7 +237,8 @@ input:focus {
 }
 
 @keyframes shakeIn {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(0);
   }
 
@@ -246,22 +267,27 @@ input:focus {
   }
 }
 
-.result-box {
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
-.result-box.bounce,
-.result-box.spin,
-.result-box.shake,
-.result-box.fade {
-  border-color: currentColor;
-  box-shadow: 0 0 28px currentColor;
-}
+@media (max-width: 480px) {
+  body {
+    padding: 18px;
+  }
 
-.secondary-btn:active {
-  transform: scale(0.96);
-}
+  h1 {
+    font-size: 38px;
+  }
 
-#historyList li {
-  animation: fadeIn 0.35s ease;
+  .result-box {
+    font-size: 22px;
+  }
 }

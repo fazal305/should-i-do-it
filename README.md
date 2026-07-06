@@ -1,89 +1,124 @@
-# Should I Do It? 🤔
+# Should I Do It?
 
-A chaotic late-night decision generator built using plain HTML, CSS, and vanilla JavaScript.
+A playful decision generator built with HTML, CSS, and vanilla JavaScript.
 
-Ask any question and let the universe respond with questionable wisdom.
+Ask a question, press the button, and the app responds with a random dramatic answer. It is intentionally light, funny, and simple, while still showing DOM manipulation, browser APIs, animations, and shareable results.
 
----
+## Live Links
+
+- GitHub Repository: https://github.com/fazal305/should-i-do-it
+- Live Demo: https://fazal305.github.io/should-i-do-it/
+
+## Overview
+
+Should I Do It? is a tiny browser app for chaotic yes/no decisions. It uses a list of preset responses, random selection logic, animated result states, Web Audio feedback, mobile vibration support, WhatsApp sharing, and a short recent-decision history.
+
+This is a good portfolio mini-project because it is small, memorable, and easy to demo.
 
 ## Features
 
-- Random funny decision generator
-- Multiple animated responses
-- Different colours for each answer
+- Random decision generator
+- Playful response pack
+- Animated answer states
 - Ask Again button
 - WhatsApp sharing
-- Last 5 decision history
-- Sound effect using Web Audio API
+- Recent decision history
+- Web Audio API sound effect
 - Mobile vibration support
-- Mobile-friendly dark UI
+- Responsive dark interface
+- Keyboard support with the Enter key
 
----
-
-## Responses Included
-
-- ✅ YES
-- ❌ NO
-- 🚫 ABSOLUTELY NOT
-- 👩 ASK YOUR MOTHER
-- ☕ TRY AGAIN AFTER CHAI
-- 🤷 THE UNIVERSE IS UNSURE
-- 😂 BHAI SERIOUSLY?
-- 🔁 FLIP A COIN INSTEAD
-- 😴 MAYBE AFTER A NAP
-- 🙏 PRAY FIRST
-
----
-
-## Technologies Used
+## Tech Stack
 
 - HTML5
 - CSS3
-- Vanilla JavaScript
-- DOM Manipulation
-- Math.random()
+- JavaScript
+- DOM manipulation
 - Web Audio API
 - Vibration API
 
----
+## Screenshots
 
-## How To Run
+Add screenshots after running the project.
 
-1. Download or clone the project
-2. Open the folder
-3. Run `index.html` in your browser
+- `docs/screenshots/home.png` - main question screen
+- `docs/screenshots/result.png` - generated answer
+- `docs/screenshots/history.png` - recent decisions list
+- `docs/screenshots/mobile.png` - mobile layout
 
----
+## Demo Video / GIF
 
-## Live Demo
+Add a short GIF showing:
 
-https://fazal305.github.io/should-i-do-it/
+1. Typing a question
+2. Generating a random answer
+3. Using Ask Again
+4. Showing the history list
+5. Opening the WhatsApp share action
 
----
+## Folder Structure
 
-## Screenshot Idea
+```text
+should-i-do-it/
+  index.html
+  style.css
+  script.js
+  README.md
+  LICENSE
+  .gitignore
+```
 
-Ask things like:
+## Getting Started
 
-- Should I text my ex?
-- Should I skip class?
-- Should I order biryani again?
+1. Clone or download the repository.
+2. Open `index.html` in a browser.
+3. Type a question.
+4. Click `Decide My Fate`.
 
-Then screenshot the chaos.
+No build step or dependencies are required.
 
----
+## Architecture Notes
+
+The app is split into three files:
+
+- `index.html` contains the page structure.
+- `style.css` controls the dark UI, layout, button states, and animations.
+- `script.js` handles random responses, history, sound, vibration, and sharing.
+
+## Accessibility
+
+- The input has a visible label.
+- The result area uses live-region attributes so screen readers can detect answer changes.
+- Buttons and links are keyboard accessible.
+- Focus states are included for interactive controls.
+
+## Performance
+
+The app is lightweight and dependency-free. It runs fully in the browser with no backend, no package manager, and no external assets.
+
+## Lessons Learned
+
+- How to select random items from an array
+- How to update the DOM based on user input
+- How to build small interactive browser apps
+- How to use browser APIs for sound, vibration, and sharing
+- How to keep a mini-project simple and demo-friendly
 
 ## Future Improvements
 
-- Save history using localStorage
-- Add more answer packs
-- Add custom sound effects
-- Add meme GIF reactions
-- Add AI-generated roast mode
-- Add light mode (unfortunately)
+- Save history with `localStorage`
+- Add response packs by mood
+- Add custom sound toggle
+- Add light mode
+- Add copy-to-clipboard sharing
+- Add a coin-flip mode
 
----
+## Fazal Labs Ecosystem
 
-## Author
+Part of **Fazal Labs** under the **Fun Lab** suite.
 
-Built by Fazal Abbas using late-night energy and questionable life decisions.
+This is a small, playful portfolio mini-project designed to show JavaScript interaction and personality.
+
+## License
+
+MIT License

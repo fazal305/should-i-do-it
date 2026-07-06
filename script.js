@@ -7,153 +7,141 @@ const actionButtons = document.querySelector(".action-buttons");
 const historyList = document.getElementById("historyList");
 
 let lastQuestion = "";
-let lastAnswer = "";
 let history = [];
 
 const responses = [
-    { text: "✅ YES", color: "#00ff99" },
-    { text: "❌ NO", color: "#ff4d6d" },
-    { text: "🚫 ABSOLUTELY NOT", color: "#ff2e63" },
-    { text: "👩 ASK YOUR MOTHER", color: "#ffd166" },
-    { text: "☕ TRY AGAIN AFTER CHAI", color: "#f4a261" },
-    { text: "🤷 THE UNIVERSE IS UNSURE", color: "#70d6ff" },
-    { text: "😂 BHAI SERIOUSLY?", color: "#c77dff" },
-    { text: "🔁 FLIP A COIN INSTEAD", color: "#72efdd" },
-    { text: "😴 MAYBE AFTER A NAP", color: "#a29bfe" },
-    { text: "🙏 PRAY FIRST", color: "#f9c74f" }
+  { text: "YES", color: "#00ff99" },
+  { text: "NO", color: "#ff4d6d" },
+  { text: "ABSOLUTELY NOT", color: "#ff2e63" },
+  { text: "ASK YOUR MOTHER", color: "#ffd166" },
+  { text: "TRY AGAIN AFTER CHAI", color: "#f4a261" },
+  { text: "THE UNIVERSE IS UNSURE", color: "#70d6ff" },
+  { text: "BHAI SERIOUSLY?", color: "#c77dff" },
+  { text: "FLIP A COIN INSTEAD", color: "#72efdd" },
+  { text: "MAYBE AFTER A NAP", color: "#a29bfe" },
+  { text: "PRAY FIRST", color: "#f9c74f" }
 ];
 
 function playPopSound() {
-    const audioContext = new AudioContext();
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
 
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
+  if (!AudioContextClass) {
+    return;
+  }
 
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
+  const audioContext = new AudioContextClass();
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
 
-    oscillator.frequency.value = 500;
-    gainNode.gain.value = 0.08;
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
 
-    oscillator.start();
+  oscillator.frequency.value = 500;
+  gainNode.gain.value = 0.08;
 
-    setTimeout(() => {
-        oscillator.stop();
-    }, 80);
+  oscillator.start();
+
+  setTimeout(() => {
+    oscillator.stop();
+    audioContext.close();
+  }, 80);
 }
 
 function vibratePhone() {
-    if (navigator.vibrate) {
-        navigator.vibrate(80);
-    }
+  if (navigator.vibrate) {
+    navigator.vibrate(80);
+  }
 }
 
 function updateWhatsappLink(question, answer) {
-    const message = `I asked: "${question}"%0AThe answer was: ${answer}%0A%0ATry this decision generator 😂`;
+  const message = `I asked: "${question}"\nThe answer was: ${answer}\n\nTry this decision generator.`;
 
-    whatsappShareBtn.href = `https://wa.me/?text=${message}`;
+  whatsappShareBtn.href = `https://wa.me/?text=${encodeURIComponent(message)}`;
 }
 
 function updateHistory(question, answer) {
-    history.unshift({
-        question: question,
-        answer: answer
-    });
+  history.unshift({
+    question,
+    answer
+  });
 
-    history = history.slice(0, 5);
+  history = history.slice(0, 5);
+  historyList.innerHTML = "";
 
-    historyList.innerHTML = "";
+  history.forEach((item) => {
+    const li = document.createElement("li");
+    const questionLine = document.createElement("strong");
+    const answerLine = document.createElement("strong");
 
-    history.forEach((item) => {
-        const li = document.createElement("li");
+    questionLine.textContent = "Q:";
+    answerLine.textContent = "A:";
 
-        li.innerHTML = `
-      <strong>Q:</strong> ${item.question}<br>
-      <strong>A:</strong> ${item.answer}
-    `;
+    li.appendChild(questionLine);
+    li.append(` ${item.question}`);
+    li.appendChild(document.createElement("br"));
+    li.appendChild(answerLine);
+    li.append(` ${item.answer}`);
 
-        historyList.appendChild(li);
-    });
+    historyList.appendChild(li);
+  });
 }
 
-function showRandomAnswer(question) {
+function runResultAnimation() {
+  const animations = ["bounce", "spin", "shake", "fade"];
+  const randomAnimation = animations[Math.floor(Math.random() * animations.length)];
 
-  const randomIndex = Math.floor(Math.random() * responses.length);
+  resultBox.classList.remove("bounce", "spin", "shake", "fade");
 
-  const selectedResponse = responses[randomIndex];
-
-  lastAnswer = selectedResponse.text;
-
-  resultBox.textContent = selectedResponse.text;
-
-  resultBox.style.color = selectedResponse.color;
-
-  actionButtons.style.display = "grid";
-
-  updateWhatsappLink(question, selectedResponse.text);
-
-  updateHistory(question, selectedResponse.text);
-
-  playPopSound();
-
-  vibratePhone();
-
-  // Remove old animations first
-  resultBox.classList.remove(
-    "bounce",
-    "spin",
-    "shake",
-    "fade"
-  );
-
-  // Random animation selection
-  const animations = [
-    "bounce",
-    "spin",
-    "shake",
-    "fade"
-  ];
-
-  const randomAnimation =
-    animations[Math.floor(Math.random() * animations.length)];
-
-  // Re-add animation
   setTimeout(() => {
     resultBox.classList.add(randomAnimation);
   }, 10);
 }
 
+function showRandomAnswer(question) {
+  const randomIndex = Math.floor(Math.random() * responses.length);
+  const selectedResponse = responses[randomIndex];
+
+  resultBox.textContent = selectedResponse.text;
+  resultBox.style.color = selectedResponse.color;
+  actionButtons.style.display = "grid";
+
+  updateWhatsappLink(question, selectedResponse.text);
+  updateHistory(question, selectedResponse.text);
+  playPopSound();
+  vibratePhone();
+  runResultAnimation();
+}
+
 function generateDecision() {
-    const question = questionInput.value.trim();
+  const question = questionInput.value.trim();
 
-    if (question === "") {
-        resultBox.textContent = "⚠️ Ask something first";
-        resultBox.style.color = "#ffffff";
-        return;
-    }
+  if (question === "") {
+    resultBox.textContent = "Ask something first.";
+    resultBox.style.color = "#ffffff";
+    questionInput.focus();
+    return;
+  }
 
-    lastQuestion = question;
-    showRandomAnswer(question);
+  lastQuestion = question;
+  showRandomAnswer(question);
 }
 
 function askAgain() {
-    if (lastQuestion === "") {
-        resultBox.textContent = "⚠️ Ask one question first";
-        resultBox.style.color = "#ffffff";
-        return;
-    }
+  if (lastQuestion === "") {
+    resultBox.textContent = "Ask one question first.";
+    resultBox.style.color = "#ffffff";
+    questionInput.focus();
+    return;
+  }
 
-    showRandomAnswer(lastQuestion);
+  showRandomAnswer(lastQuestion);
 }
 
 decideBtn.addEventListener("click", generateDecision);
 askAgainBtn.addEventListener("click", askAgain);
 
-// Allow Enter key to submit
-questionInput.addEventListener("keydown", function(event) {
-
+questionInput.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
     generateDecision();
   }
-
 });
